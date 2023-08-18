@@ -2,8 +2,7 @@ const itemForm = document.getElementById("item-form");
 let itemInput = document.getElementById("item-input");
 const itemList = document.getElementById("item-list");
 const clearBtn = document.getElementById("clear");
-const filterInput = document.getElementById("filter");
-
+let filterInput = document.getElementById("filter");
 
 
 const addItem = (e) => {
@@ -14,7 +13,7 @@ const addItem = (e) => {
         return
     }
     const li = document.createElement("li")
-    li.appendChild(document.createTextNode(itemInput.value));
+    li.appendChild(document.createTextNode(itemInput.value));//itemInput.value
     const button = createButton("remove-item btn-link text-red")
 
     li.appendChild(button);
@@ -61,25 +60,44 @@ const clearAll = (e) => {
 }
 
 
-const checkItem = ()=>{
+const checkItem = () => {
     const items = document.querySelectorAll("li");
 
-    if(items.length===0) {
-        clearBtn.style.display="none"
-        filterInput.style.display="none"
+    if (items.length === 0) {
+        clearBtn.style.display = "none"
+        filterInput.style.display = "none"
     } else {
-        clearBtn.style.display="block"
-        filterInput.style.display="block"
+        clearBtn.style.display = "block"
+        filterInput.style.display = "block"
     }
 }
 
 checkItem()
 
+// const filterFunc = (words, letter)=>{
+//     return words.filter((el)=> el.includes(letter))
+// }
+
+// ?
+const filterHandler = (e) => {
+    const items = document.querySelectorAll("li");
+
+    Array.from(items).filter((el) => {
+        let elText = el.textContent.toLowerCase();
+
+        if (elText.includes(e.target.value.toLowerCase())) {
+            el.style.display = "flex"
+        } else {
+            el.style.display = "none"
+        }
+    })
+}
 
 
 itemForm.addEventListener("submit", addItem);
 itemList.addEventListener("click", removeItem);
 clearBtn.addEventListener("click", clearAll);
+filterInput.addEventListener("input", filterHandler);
 
 
 //Solution 1
