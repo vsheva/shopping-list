@@ -5,8 +5,21 @@ const clearBtn = document.getElementById("clear");
 let filterInput = document.getElementById("filter");
 
 
+const showItems = () => {
+    const items = getItemFromStorage();
+
+    items.forEach((elem) => {
+        addItemToDom(elem)
+    })
+
+    checkItem();
+}
+
+
 const addItemSubmit = (e) => {
     e.preventDefault();
+
+    //const newItem= itemInput.value
 
     if (itemInput.value === "") {
         alert("Please fill the input up");
@@ -15,37 +28,51 @@ const addItemSubmit = (e) => {
 
     checkItem()
     addItemToDom(itemInput.value);
-    addToStorage(itemInput.value)
+    addToLocaleStorage(itemInput.value)
 
-    itemInput.value = ""
-
-}
-
-
-const addToStorage = (myItem) => {
-
-   localStorage.setItem("girl", "Sophia")
-
-    let itemsArray
-
-
-    if (localStorage.getItem("item")===null) {
-        itemsArray = [];
-    }
-    if (localStorage.getItem("item")!==null){
-         itemsArray= JSON.parse(localStorage.getItem("item")) // '[Sophia]' -> itemsArray=[Sophia]
-    }
-
-    itemsArray.push(myItem)  // "I love you"  // ['Sophia', 'I love you']
-    localStorage.setItem("item", JSON.stringify(itemsArray))
-
+    itemInput.value.value = ""
 
 }
 
 
-const addItemToDom = (item) => {
+const addToLocaleStorage = (newItem) => {
+    const newArray = getItemFromStorage()
+
+    newArray.push(newItem) // ["Sophia"].push("I love you) => ["Sophia", "I love you"]
+    localStorage.setItem("item", JSON.stringify(newArray))
+
+
+}
+
+const getItemFromStorage = () => {
+
+    //localStorage.setItem("name", "vika")
+
+    let newArray
+
+    if (localStorage.getItem("item") === null) {
+        newArray = []
+    }
+    if (localStorage.getItem("item")) {
+        newArray = JSON.parse(localStorage.getItem("item")) // '[Sophia]' -> itemsArray=[Sophia]
+    }
+    return newArray
+}
+
+
+//localStorage
+/**
+ {
+"item":  ["valera","ttt","fight"],
+"name": "vika"
+}
+ */
+
+
+
+const addItemToDom = (newItem) => {
     const li = document.createElement("li")
-    li.appendChild(document.createTextNode(item));//itemInput.value
+    li.appendChild(document.createTextNode(newItem));//itemInput.value
     const button = createButton("remove-item btn-link text-red")
     li.appendChild(button);
     itemList.appendChild(li);
@@ -74,9 +101,9 @@ const removeItem = (e) => {
         e.target.closest("li").remove()
         //e.target.parentElement.parentElement.remove()
     }
+    ;
 
     checkItem();
-
 }
 
 
@@ -92,7 +119,6 @@ const checkItem = () => {
     const items = document.querySelectorAll("li");
 
 
-
     if (items.length === 0) {
         clearBtn.style.display = "none"
         filterInput.style.display = "none"
@@ -103,6 +129,8 @@ const checkItem = () => {
 }
 
 checkItem()
+
+//filter
 
 // const filterFunc = (words, letter)=>{
 //     return words.filter((el)=> el.includes(letter))
@@ -124,10 +152,15 @@ const filterHandler = (e) => {
 }
 
 
-itemForm.addEventListener("submit", addItemSubmit);
-itemList.addEventListener("click", removeItem);
-clearBtn.addEventListener("click", clearAll);
-filterInput.addEventListener("input", filterHandler);
+const init = () => {
+    itemForm.addEventListener("submit", addItemSubmit);
+    itemList.addEventListener("click", removeItem);
+    clearBtn.addEventListener("click", clearAll);
+    filterInput.addEventListener("input", filterHandler);
+    document.addEventListener("DOMContentLoaded", showItems);
+}
+
+init()
 
 
 //const myName = localStorage.setItem("name", "Valerii")
@@ -153,3 +186,21 @@ itemForm.addEventListener("submit",onSubmit)
 */
 
 
+//
+// const addToStorage = (myItem) => {
+//
+//    localStorage.setItem("girl", "Sophia")
+//
+//     let itemsArray
+//
+//
+//     if (localStorage.getItem("item")===null) {
+//         itemsArray = [];
+//     }
+//     if (localStorage.getItem("item")!==null){
+//          itemsArray= JSON.parse(localStorage.getItem("item")) // '[Sophia]' -> itemsArray=[Sophia]
+//     }
+//
+//     itemsArray.push(myItem)  // "I love you"  // ['Sophia', 'I love you']
+//     localStorage.setItem("item", JSON.stringify(itemsArray))
+// }
