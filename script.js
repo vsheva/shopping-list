@@ -5,15 +5,22 @@ const clearBtn = document.getElementById("clear");
 let filterInput = document.getElementById("filter");
 
 
-const showItems = () => {
-    const items = getItemFromStorage();
+const showItems=()=>{
 
-    items.forEach((elem) => {
-        addItemToDom(elem)
-    })
+    let newItems;
 
-    checkItem();
+    if (localStorage.getItem("item")===null) {
+        newItems = [];
+    } else {
+        newItems = JSON.parse(localStorage.getItem("item")) //нельзя просто так взять значение из localstorage-> parse
+    }
+
+    newItems.map((el)=>addItemToDom(el))
+
 }
+
+
+
 
 
 const addItemSubmit = (e) => {
@@ -203,4 +210,18 @@ itemForm.addEventListener("submit",onSubmit)
 //
 //     itemsArray.push(myItem)  // "I love you"  // ['Sophia', 'I love you']
 //     localStorage.setItem("item", JSON.stringify(itemsArray))
+// }
+
+
+
+
+
+//const showItems = () => {
+//     const items = getItemFromStorage();
+//
+//     items.forEach((elem) => {
+//         addItemToDom(elem)
+//     })
+//
+//     checkItem();
 // }
