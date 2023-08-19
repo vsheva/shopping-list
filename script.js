@@ -5,26 +5,54 @@ const clearBtn = document.getElementById("clear");
 let filterInput = document.getElementById("filter");
 
 
-const addItem = (e) => {
+const addItemSubmit = (e) => {
     e.preventDefault();
 
     if (itemInput.value === "") {
         alert("Please fill the input up");
         return
     }
-    const li = document.createElement("li")
-    li.appendChild(document.createTextNode(itemInput.value));//itemInput.value
-    const button = createButton("remove-item btn-link text-red")
 
-    li.appendChild(button);
-    itemList.appendChild(li);
     checkItem()
-
-    li.appendChild(button);
+    addItemToDom(itemInput.value);
+    addToStorage(itemInput.value)
 
     itemInput.value = ""
 
 }
+
+
+const addToStorage = (myItem) => {
+
+   localStorage.setItem("girl", "Sophia")
+
+    let itemsArray
+
+
+    if (localStorage.getItem("item")===null) {
+        itemsArray = [];
+    }
+    if (localStorage.getItem("item")!==null){
+         itemsArray= JSON.parse(localStorage.getItem("item")) // '[Sophia]' -> itemsArray=[Sophia]
+    }
+
+    itemsArray.push(myItem)  // "I love you"  // ['Sophia', 'I love you']
+    localStorage.setItem("item", JSON.stringify(itemsArray))
+
+
+}
+
+
+const addItemToDom = (item) => {
+    const li = document.createElement("li")
+    li.appendChild(document.createTextNode(item));//itemInput.value
+    const button = createButton("remove-item btn-link text-red")
+    li.appendChild(button);
+    itemList.appendChild(li);
+
+    li.appendChild(button);
+}
+
 
 const createButton = (classes) => {
     const button = document.createElement("button")
@@ -63,6 +91,8 @@ const clearAll = (e) => {
 const checkItem = () => {
     const items = document.querySelectorAll("li");
 
+
+
     if (items.length === 0) {
         clearBtn.style.display = "none"
         filterInput.style.display = "none"
@@ -94,10 +124,16 @@ const filterHandler = (e) => {
 }
 
 
-itemForm.addEventListener("submit", addItem);
+itemForm.addEventListener("submit", addItemSubmit);
 itemList.addEventListener("click", removeItem);
 clearBtn.addEventListener("click", clearAll);
 filterInput.addEventListener("input", filterHandler);
+
+
+//const myName = localStorage.setItem("name", "Valerii")
+//console.log(localStorage.getItem("name"))
+//localStorage.removeItem("name")
+//localStorage.clear()
 
 
 //Solution 1
