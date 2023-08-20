@@ -79,10 +79,10 @@ const removeItem = (item) => {
 
 const removeItemFromLocaleStorage = (newItem) => {
   let items = getItemFromStorage();
-  //console.log(items)
+
     items=items.filter((el)=>el!==newItem)
     //localStorage.setItem('item', items)  !!!!!!!! так не работает
-    localStorage.setItem('item',JSON.stringify( items))
+    localStorage.setItem('item',JSON.stringify( items));
 }
 
 const addItemToDom = (newItem) => {
@@ -93,6 +93,8 @@ const addItemToDom = (newItem) => {
     itemList.appendChild(li);
 
     li.appendChild(button);
+
+    checkItem();
 }
 
 
