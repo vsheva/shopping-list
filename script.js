@@ -4,77 +4,71 @@ const itemList = document.getElementById("item-list");
 const clearBtn = document.getElementById("clear");
 let filterInput = document.getElementById("filter");
 
-
 const showItems=()=>{
+    // let newItems;
+    //
+    // if (localStorage.getItem("item")===null) {
+    //     newItems = [];
+    // } else {
+    //     newItems = JSON.parse(localStorage.getItem("item")) //нельзя просто так взять значение из localstorage-> parse
+    // }
 
-    let newItems;
-
-    if (localStorage.getItem("item")===null) {
-        newItems = [];
-    } else {
-        newItems = JSON.parse(localStorage.getItem("item")) //нельзя просто так взять значение из localstorage-> parse
-    }
-
-    newItems.map((el)=>addItemToDom(el))
-
+    const newItems=getItemFromStorage();
+    newItems.map((el)=>addItemToDom(el));
+    checkItem();
 }
-
-
-
 
 
 const addItemSubmit = (e) => {
     e.preventDefault();
+    let newItem= itemInput.value
+    //
+    // if (newItem === "") {
+    //     alert("Please fill the input up");
+    //     return
+    // }
 
-    //const newItem= itemInput.value
-
-    if (itemInput.value === "") {
-        alert("Please fill the input up");
-        return
-    }
-
+    getItemFromStorage()
     checkItem()
-    addItemToDom(itemInput.value);
-    addToLocaleStorage(itemInput.value)
-
-    itemInput.value.value = ""
-
+    addItemToDom(newItem);
+    addToLocaleStorage(newItem)
+    itemInput.value = ""
 }
 
 
 const addToLocaleStorage = (newItem) => {
     const newArray = getItemFromStorage()
-
     newArray.push(newItem) // ["Sophia"].push("I love you) => ["Sophia", "I love you"]
     localStorage.setItem("item", JSON.stringify(newArray))
-
-
 }
 
 const getItemFromStorage = () => {
 
     //localStorage.setItem("name", "vika")
 
-    let newArray
+    let newArrayFromStorage
 
     if (localStorage.getItem("item") === null) {
-        newArray = []
+        newArrayFromStorage = []
     }
     if (localStorage.getItem("item")) {
-        newArray = JSON.parse(localStorage.getItem("item")) // '[Sophia]' -> itemsArray=[Sophia]
+        newArrayFromStorage = JSON.parse(localStorage.getItem("item")) // '[Sophia]' -> itemsArray=[Sophia]
     }
-    return newArray
+    return newArrayFromStorage
 }
 
+// const onItemClick =(e)=>{
+//     if (e.target.parentNode.className.includes("remove-item")) {
+//         removeItem(e.target.closest("li"));
+//     }
 
-//localStorage
-/**
- {
-"item":  ["valera","ttt","fight"],
-"name": "vika"
+
+const removeItem = (e) => {
+    if (e.target.parentNode.className.includes("remove-item")) { //if button has class "remove-item"
+        e.target.closest("li").remove() //e.target.parentElement.parentElement.remove()
+    }
+    checkItem();
 }
- */
-
 
 
 const addItemToDom = (newItem) => {
@@ -102,18 +96,6 @@ const createIcon = (classes) => {
     return icon;
 }
 
-
-const removeItem = (e) => {
-    if (e.target.parentNode.className.includes("remove-item")) {
-        e.target.closest("li").remove()
-        //e.target.parentElement.parentElement.remove()
-    }
-    ;
-
-    checkItem();
-}
-
-
 const clearAll = (e) => {
     //itemList.innerHTML =""
     while (itemList.firstChild) {
@@ -124,7 +106,6 @@ const clearAll = (e) => {
 
 const checkItem = () => {
     const items = document.querySelectorAll("li");
-
 
     if (items.length === 0) {
         clearBtn.style.display = "none"
@@ -162,6 +143,7 @@ const filterHandler = (e) => {
 const init = () => {
     itemForm.addEventListener("submit", addItemSubmit);
     itemList.addEventListener("click", removeItem);
+    //itemList.addEventListener("click", onItemClick);
     clearBtn.addEventListener("click", clearAll);
     filterInput.addEventListener("input", filterHandler);
     document.addEventListener("DOMContentLoaded", showItems);
