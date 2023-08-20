@@ -78,6 +78,7 @@ const addItemToDom = (newItem) => {
     li.appendChild(button);
     itemList.appendChild(li);
 
+
     li.appendChild(button);
 }
 
