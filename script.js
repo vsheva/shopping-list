@@ -44,8 +44,6 @@ const addToLocaleStorage = (newItem) => {
 
 const getItemFromStorage = () => {
 
-    //localStorage.setItem("name", "vika")
-
     let newArrayFromStorage
 
     if (localStorage.getItem("item") === null) {
@@ -77,7 +75,6 @@ const addItemToDom = (newItem) => {
     const button = createButton("remove-item btn-link text-red")
     li.appendChild(button);
     itemList.appendChild(li);
-
 
     li.appendChild(button);
 }
