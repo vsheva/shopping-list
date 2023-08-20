@@ -4,7 +4,7 @@ const itemList = document.getElementById("item-list");
 const clearBtn = document.getElementById("clear");
 let filterInput = document.getElementById("filter");
 
-const showItems=()=>{
+const showItems = () => {
     // let newItems;
     //
     // if (localStorage.getItem("item")===null) {
@@ -13,15 +13,15 @@ const showItems=()=>{
     //     newItems = JSON.parse(localStorage.getItem("item")) //нельзя просто так взять значение из localstorage-> parse
     // }
 
-    const newItems=getItemFromStorage();
-    newItems.map((el)=>addItemToDom(el));
+    const newItems = getItemFromStorage();
+    newItems.map((el) => addItemToDom(el));
     checkItem();
 }
 
 
 const addItemSubmit = (e) => {
     e.preventDefault();
-    let newItem= itemInput.value
+    let newItem = itemInput.value
     //
     // if (newItem === "") {
     //     alert("Please fill the input up");
@@ -61,13 +61,29 @@ const getItemFromStorage = () => {
 //     }
 
 
-const removeItem = (e) => {
+const onItemClick = (e) => {
     if (e.target.parentNode.className.includes("remove-item")) { //if button has class "remove-item"
-        e.target.closest("li").remove() //e.target.parentElement.parentElement.remove()
+        removeItem(e.target.closest("li"))//e.target.parentElement.parentElement.remove()
     }
+}
+
+const removeItem = (item) => {
+    // if (e.target.parentNode.className.includes("remove-item")) { //if button has class "remove-item"
+    //     e.target.closest("li").remove() //e.target.parentElement.parentElement.remove()
+    // }
+    item.remove();
+    removeItemFromLocaleStorage(item.textContent);
+
     checkItem();
 }
 
+const removeItemFromLocaleStorage = (newItem) => {
+  let items = getItemFromStorage();
+  //console.log(items)
+    items=items.filter((el)=>el!==newItem)
+    //localStorage.setItem('item', items)  !!!!!!!! так не работает
+    localStorage.setItem('item',JSON.stringify( items))
+}
 
 const addItemToDom = (newItem) => {
     const li = document.createElement("li")
@@ -140,8 +156,8 @@ const filterHandler = (e) => {
 
 const init = () => {
     itemForm.addEventListener("submit", addItemSubmit);
-    itemList.addEventListener("click", removeItem);
-    //itemList.addEventListener("click", onItemClick);
+    //itemList.addEventListener("click", removeItem);
+    itemList.addEventListener("click", onItemClick);
     clearBtn.addEventListener("click", clearAll);
     filterInput.addEventListener("input", filterHandler);
     document.addEventListener("DOMContentLoaded", showItems);
@@ -191,9 +207,6 @@ itemForm.addEventListener("submit",onSubmit)
 //     itemsArray.push(myItem)  // "I love you"  // ['Sophia', 'I love you']
 //     localStorage.setItem("item", JSON.stringify(itemsArray))
 // }
-
-
-
 
 
 //const showItems = () => {
