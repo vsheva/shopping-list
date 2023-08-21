@@ -3,6 +3,9 @@ let itemInput = document.getElementById("item-input");
 const itemList = document.getElementById("item-list");
 const clearBtn = document.getElementById("clear");
 let filterInput = document.getElementById("filter");
+const btn = itemForm.querySelector("button")
+
+let inEditMode = false
 
 const showItems = () => {
     // let newItems;
@@ -22,11 +25,11 @@ const showItems = () => {
 const addItemSubmit = (e) => {
     e.preventDefault();
     let newItem = itemInput.value
-    //
-    // if (newItem === "") {
-    //     alert("Please fill the input up");
-    //     return
-    // }
+
+    if (newItem === "") {
+        alert("Please fill the input up");
+        return
+    }
 
     getItemFromStorage()
     checkItem()
@@ -63,9 +66,30 @@ const getItemFromStorage = () => {
 
 const onItemClick = (e) => {
     if (e.target.parentNode.className.includes("remove-item")) { //if button has class "remove-item"
-        removeItem(e.target.closest("li"))//e.target.parentElement.parentElement.remove()
+        if (confirm("Are you sure?")) {
+            removeItem(e.target.closest("li"))  //e.target.parentElement.parentElement.remove()
+        }
+    } else {
+        editItem(e.target)
     }
+
+
 }
+
+const editItem = (item) => {
+    inEditMode = true
+
+    let items = itemList.querySelectorAll("li");
+    items.forEach(el => el.classList.remove("edit-mode"))//item.style.color="#ccc";
+
+    item.classList.add("edit-mode");
+    btn.innerHTML = '<i class="fa-solid fa-pen"></i> Edit Item'
+    btn.style.backgroundColor = "#228b22"
+    itemInput.value = item.textContent //!!!!!без textContent не работает - записали в инпут текст  места клика
+
+
+}
+
 
 const removeItem = (item) => {
     // if (e.target.parentNode.className.includes("remove-item")) { //if button has class "remove-item"
@@ -78,11 +102,11 @@ const removeItem = (item) => {
 }
 
 const removeItemFromLocaleStorage = (newItem) => {
-  let items = getItemFromStorage();
+    let items = getItemFromStorage();
 
-    items=items.filter((el)=>el!==newItem)
+    items = items.filter((el) => el !== newItem)
     //localStorage.setItem('item', items)  !!!!!!!! так не работает
-    localStorage.setItem('item',JSON.stringify( items));
+    localStorage.setItem('item', JSON.stringify(items));
 }
 
 const addItemToDom = (newItem) => {
@@ -117,6 +141,10 @@ const clearAll = (e) => {
     while (itemList.firstChild) {
         itemList.removeChild(itemList.firstChild)
     }
+
+    localStorage.clear()  //localStorage.removeItem("item")
+
+    checkItem();
 }
 
 
