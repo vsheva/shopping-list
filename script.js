@@ -69,11 +69,9 @@ const onItemClick = (e) => {
         if (confirm("Are you sure?")) {
             removeItem(e.target.closest("li"))  //e.target.parentElement.parentElement.remove()
         }
-    } else {
+    } else if (e.target.tagName === "LI") {
         editItem(e.target)
     }
-
-
 }
 
 const editItem = (item) => {
@@ -86,8 +84,6 @@ const editItem = (item) => {
     btn.innerHTML = '<i class="fa-solid fa-pen"></i> Edit Item'
     btn.style.backgroundColor = "#228b22"
     itemInput.value = item.textContent //!!!!!без textContent не работает - записали в инпут текст  места клика
-
-
 }
 
 
