@@ -1,6 +1,6 @@
 const itemForm = document.getElementById('item-form');
 let itemInput = document.getElementById('item-input');
-const itemList = document.getElementById('item-list');
+let itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 let filterInput = document.getElementById('filter');
 const btn = itemForm.querySelector('button');
@@ -39,6 +39,10 @@ const addItemSubmit = e => {
         //removeItem(editItem);
 
         inEditMode = false
+
+    } else if (checkItemExists(newItem)) {   //!!!!!!!!!!!!!
+        alert("This item already exists!");
+        return;
     }
 
     getItemFromStorage();
@@ -93,6 +97,12 @@ const editItem = item => {
     btn.style.backgroundColor = '#228b22';
     itemInput.value = item.textContent; //!!!!!без textContent не работает - записали в инпут текст  места клика
 };
+
+const checkItemExists = (item) => {
+    const arrayItemsFromStorage = getItemFromStorage()
+    return arrayItemsFromStorage.includes(item);
+
+}
 
 const removeItem = item => {
     // if (e.target.parentNode.className.includes("remove-item")) { //if button has class "remove-item"
@@ -150,7 +160,7 @@ const clearAll = e => {
 };
 
 const checkItem = () => {
-    itemInput.value="";
+    itemInput.value = "";
     const items = document.querySelectorAll('li');
 
     if (items.length === 0) {
@@ -161,7 +171,7 @@ const checkItem = () => {
         filterInput.style.display = 'block';
     }
 
-    btn.innerHTML='<i class="fa-solid fa-plus"></i> Add Item';
+    btn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Item';
     btn.style.backgroundColor = '#333';
 };
 
