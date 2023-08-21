@@ -31,13 +31,11 @@ const addItemSubmit = e => {
     }
 
     if (inEditMode) {
-        const editItem = itemList.querySelector(".edit");
-        removeItemFromLocaleStorage(editItem.textContent);
-        editItem.classList.remove("edit");
+        const editedItem = itemList.querySelector(".edit");
+        removeItemFromLocaleStorage(editedItem.textContent); //remove from Storage
+        editedItem.classList.remove("edit");
 
-        editItem.remove();
-        //removeItem(editItem);
-
+        editedItem.remove();  //remove from UI //removeItem(editItem);
         inEditMode = false
 
     } else if (checkItemExists(newItem)) {   //!!!!!!!!!!!!!
@@ -70,11 +68,6 @@ const getItemFromStorage = () => {
     return newArrayFromStorage;
 };
 
-// const onItemClick =(e)=>{
-//     if (e.target.parentNode.className.includes("remove-item")) {
-//         removeItem(e.target.closest("li"));
-//     }
-
 const onItemClick = e => {
     if (e.target.parentNode.className.includes('remove-item')) {
         //if button has class "remove-item"
@@ -105,9 +98,8 @@ const checkItemExists = (item) => {
 }
 
 const removeItem = item => {
-    // if (e.target.parentNode.className.includes("remove-item")) { //if button has class "remove-item"
-    //     e.target.closest("li").remove() //e.target.parentElement.parentElement.remove()
-    // }
+    // if (e.target.parentNode.className.includes("remove-item")) {                              //if button has class "remove-item"
+    //     e.target.closest("li").remove() //e.target.parentElement.parentElement.remove()}
     item.remove();
     removeItemFromLocaleStorage(item.textContent);
 
@@ -178,12 +170,10 @@ const checkItem = () => {
 checkItem();
 
 //filter
-
 // const filterFunc = (words, letter)=>{
-//     return words.filter((el)=> el.includes(letter))
-// }
+//     return words.filter((el)=> el.includes(letter))}
 
-// ?
+
 const filterHandler = e => {
     const items = document.querySelectorAll('li');
 
@@ -196,12 +186,10 @@ const filterHandler = e => {
             el.style.display = 'none';
         }
     });
-
 };
 
 const init = () => {
     itemForm.addEventListener('submit', addItemSubmit);
-    //itemList.addEventListener("click", removeItem);
     itemList.addEventListener('click', onItemClick);
     clearBtn.addEventListener('click', clearAll);
     filterInput.addEventListener('input', filterHandler);
@@ -209,6 +197,7 @@ const init = () => {
 };
 
 init();
+
 
 //const myName = localStorage.setItem("name", "Valerii")
 //console.log(localStorage.getItem("name"))
