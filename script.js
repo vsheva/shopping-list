@@ -8,14 +8,6 @@ const btn = itemForm.querySelector('button');
 let inEditMode = false;
 
 const showItems = () => {
-    // let newItems;
-    //
-    // if (localStorage.getItem("item")===null) {
-    //     newItems = [];
-    // } else {
-    //     newItems = JSON.parse(localStorage.getItem("item")) //нельзя просто так взять значение из localstorage-> parse
-    // }
-
     const newItems = getItemFromStorage();
     newItems.map(el => addItemToDom(el));
     checkItem();
@@ -35,16 +27,17 @@ const addItemSubmit = e => {
         removeItemFromLocaleStorage(editedItem.textContent); //remove from Storage
         editedItem.classList.remove("edit");
 
-        editedItem.remove();  //remove from UI //removeItem(editItem);
+        editedItem.remove();  //removeItem(editItem) -remove from UI
         inEditMode = false
 
-    } else if (checkItemExists(newItem)) {   //!!!!!!!!!!!!!
+    } else if (checkItemExists(newItem)) {   //!!!
         alert("This item already exists!");
         return;
     }
 
     getItemFromStorage();
     checkItem();
+
     addItemToDom(newItem);
     addToLocaleStorage(newItem);
     itemInput.value = '';
@@ -52,7 +45,7 @@ const addItemSubmit = e => {
 
 const addToLocaleStorage = newItem => {
     const newArray = getItemFromStorage();
-    newArray.push(newItem); // ["Sophia"].push("I love you) => ["Sophia", "I love you"]
+    newArray.push(newItem);
     localStorage.setItem('item', JSON.stringify(newArray));
 };
 
@@ -63,14 +56,14 @@ const getItemFromStorage = () => {
         newArrayFromStorage = [];
     }
     if (localStorage.getItem('item')) {
-        newArrayFromStorage = JSON.parse(localStorage.getItem('item')); // '[Sophia]' -> itemsArray=[Sophia]
+        newArrayFromStorage = JSON.parse(localStorage.getItem('item')); // '[Sophia]' -> itemsArray=[Sophia] !!!!!!!!!!!нельзя просто так взять значение из localstorage-> parse
     }
     return newArrayFromStorage;
 };
 
 const onItemClick = e => {
     if (e.target.parentNode.className.includes('remove-item')) {
-        //if button has class "remove-item"
+        //if button has class "remove-item" // если нажал x
         if (confirm('Are you sure?')) {
             removeItem(e.target.closest('li')); //e.target.parentElement.parentElement.remove()
         }
@@ -121,8 +114,6 @@ const addItemToDom = newItem => {
     li.appendChild(button);
     itemList.appendChild(li);
 
-    li.appendChild(button);
-
     checkItem();
 };
 
@@ -169,11 +160,6 @@ const checkItem = () => {
 
 checkItem();
 
-//filter
-// const filterFunc = (words, letter)=>{
-//     return words.filter((el)=> el.includes(letter))}
-
-
 const filterHandler = e => {
     const items = document.querySelectorAll('li');
 
@@ -199,10 +185,55 @@ const init = () => {
 init();
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //const myName = localStorage.setItem("name", "Valerii")
 //console.log(localStorage.getItem("name"))
 //localStorage.removeItem("name")
 //localStorage.clear()
+
+
+//filter
+// const filterFunc = (words, letter)=>{
+//     return words.filter((el)=> el.includes(letter))}
+
 
 //Solution 1
 /*
@@ -220,7 +251,7 @@ const onSubmit = (e) => {
 itemForm.addEventListener("submit",onSubmit)
 */
 
-//
+
 // const addToStorage = (myItem) => {
 //
 //    localStorage.setItem("girl", "Sophia")
@@ -239,12 +270,3 @@ itemForm.addEventListener("submit",onSubmit)
 //     localStorage.setItem("item", JSON.stringify(itemsArray))
 // }
 
-//const showItems = () => {
-//     const items = getItemFromStorage();
-//
-//     items.forEach((elem) => {
-//         addItemToDom(elem)
-//     })
-//
-//     checkItem();
-// }
