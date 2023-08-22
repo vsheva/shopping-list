@@ -1,5 +1,5 @@
 # Shopping List 
-#### [link](https://majestic-frangollo-db33ee.netlify.app/)
+#### [project link](https://majestic-frangollo-db33ee.netlify.app/)
 
 Vanilla JavaScript shopping list app.
 
